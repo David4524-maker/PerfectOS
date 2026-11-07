@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PerfectOS ME Edition</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:Comic Sans MS,cursive;
+    transition:background .3s;
+}
+
+#desktop{
+    width:100vw;
+    height:100vh;
+    position:relative;
+}
+
+.icon{
+    width:120px;
+    margin:20px;
+    color:white;
+    text-align:center;
+    cursor:pointer;
+    font-size:20px;
+    user-select:none;
+}
+
+#taskbar{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:black;
+    color:white;
+    padding:10px;
+    display:flex;
+    justify-content:space-between;
+}
+
+button{
+    background:yellow;
+    border:3px solid red;
+    cursor:pointer;
+    padding:6px;
+}
+
+.popup{
+    position:absolute;
+    background:white;
+    border:4px solid red;
+    padding:10px;
+    width:260px;
+    box-shadow:8px 8px 0 black;
+    z-index:9999;
+}
+
+.window{
+    position:absolute;
+    width:350px;
+    background:white;
+    border:4px outset silver;
+}
+
+.titlebar{
+    background:navy;
+    color:white;
+    padding:5px;
+}
+
+.content{
+    padding:10px;
+}
+
+#chaosMeter{
+    color:lime;
+}
+</style>
+</head>
+
+<body>
+
+<div id="desktop">
+
+<div class="icon" ondblclick="calculator()">
+🧮<br>Calculadora
+</div>
+
+<div class="icon" ondblclick="explorer()">
+📁<br>Explorador
+</div>
+
+<div class="icon" ondblclick="browser()">
+🌐<br>PerfectNet
+</div>
+
+<div class="icon" ondblclick="restoreSystem()">
+💾<br>Restaurar
+</div>
+
+<div id="taskbar">
+<div>
+<button onclick="menu()">INICIO</button>
+</div>
+
+<div>
+<span id="chaosMeter">
+Desastre: 0%
+</span>
+
+|
+
+<span id="clock"></span>
+</div>
+</div>
+
+</div>
+
+<script>
+
+let chaos=0;
+let popupCount=0;
+const MAX_POPUPS=15;
+
+////////////////////////////////////////////////////
+// ARRANQUE WINDOWS ME
+////////////////////////////////////////////////////
+
+window.onload=()=>{
+
+notification("✅ PerfectOS inició en 0.000001 segundos");
+
+setTimeout(()=>{
+notification("Detectando hardware...");
+},800);
+
+setTimeout(()=>{
+notification("Detectando errores...");
+},1800);
+
+setTimeout(()=>{
+notification("Detectando errores en el detector de errores...");
+},2800);
+
+setTimeout(()=>{
+notification("Sistema listo para fallar.");
+},3800);
+
+};
+
+////////////////////////////////////////////////////
+// NOTIFICACIONES
+////////////////////////////////////////////////////
+
+function notification(text){
+
+if(popupCount>=MAX_POPUPS) return;
+
+popupCount++;
+
+let d=document.createElement("div");
+
+d.className="popup";
+
+d.style.left=
+Math.random()*(window.innerWidth-300)+"px";
+
+d.style.top=
+Math.random()*(window.innerHeight-250)+"px";
+
+d.innerHTML=
+text +
+"<br><br><button onclick='closePopup(this)'>Cerrar</button>";
+
+document.body.appendChild(d);
+
+setTimeout(()=>{
+if(d.parentNode){
+d.remove();
+popupCount--;
+}
+},9000);
+
+}
+
+function closePopup(btn){
+
+btn.parentElement.remove();
+
+popupCount--;
+
+}
+
+////////////////////////////////////////////////////
+// FONDO HORROROSO
+////////////////////////////////////////////////////
+
+setInterval(()=>{
+
+document.body.style.background=
+`rgb(
+${Math.random()*255},
+${Math.random()*255},
+${Math.random()*255}
+)`;
+
+},800);
+
+////////////////////////////////////////////////////
+// CURSOR CAÓTICO
+////////////////////////////////////////////////////
+
+setInterval(()=>{
+
+document.body.style.cursor=
+[
+"default",
+"crosshair",
+"wait",
+"help",
+"not-allowed",
+"progress"
+][Math.floor(Math.random()*6)];
+
+},1500);
+
+////////////////////////////////////////////////////
+// RELOJ ROTO
+////////////////////////////////////////////////////
+
+setInterval(()=>{
+
+let h=Math.floor(Math.random()*24);
+let m=Math.floor(Math.random()*60);
+let s=Math.floor(Math.random()*60);
+
+clock.textContent=
+h.toString().padStart(2,"0")+":"+
+m.toString().padStart(2,"0")+":"+
+s.toString().padStart(2,"0");
+
+},1000);
+
+////////////////////////////////////////////////////
+// NIVEL DE DESASTRE
+////////////////////////////////////////////////////
+
+setInterval(()=>{
+
+chaos++;
+
+if(chaos>127){
+
+notification("💀 Nivel crítico de desastre alcanzado");
+
+chaos=0;
+
+}
+
+chaosMeter.textContent=
+"Desastre: "+chaos+"%";
+
+document.title=
+"PerfectOS ["+chaos+"% desastre]";
+
+},1000);
+
+////////////////////////////////////////////////////
+// CLIPPY MALVADO
+////////////////////////////////////////////////////
+
+setInterval(()=>{
+
+if(Math.random()<0.4){
+
+notification(
+"🤓 Hola campeón.<br><br>" +
+"Parece que intentas usar tu PC."
+);
+
+}
+
+},7000);
+
+////////////////////////////////////////////////////
+// HARDWARE ABSURDO
+////////////////////////////////////////////////////
+
+const devices=[
+
+"Tostadora USB",
+"Patata PCI Express",
+"Monitor Invisible",
+"Disquetera Cuántica",
+"Ratón Gamer con Carburador"
+
+];
+
+setInterval(()=>{
+
+if(Math.random()<0.2){
+
+notification(
+"🔌 Nuevo hardware detectado:<br><br>"+
+devices[Math.floor(Math.random()*devices.length)]
+);
+
+}
+
+},15000);
+
+////////////////////////////////////////////////////
+// CALCULADORA
+////////////////////////////////////////////////////
+
+function calculator(){
+
+let op=prompt(
+"Calculadora PerfectOS\n\nIntroduce operación:"
+);
+
+if(op===null)return;
+
+const answers=[
+
+"5",
+"Windows XP",
+"Patata",
+"ERROR",
+"42",
+"pez",
+"Tu paciencia"
+
+];
+
+alert(
+"Resultado:\n\n"+
+answers[Math.floor(Math.random()*answers.length)]
+);
+
+}
+
+////////////////////////////////////////////////////
+// EXPLORADOR
+////////////////////////////////////////////////////
+
+function explorer(){
+
+notification(
+`
+📁 Archivos encontrados:
+
+<br><br>
+
+tesis_final_REAL.docx
+<br>
+tesis_final_REAL_FINAL.docx
+<br>
+tesis_final_REAL_FINAL2.docx
+<br>
+RAM_descargada.zip
+<br>
+virus_definitivamente_no.exe
+`
+);
+
+setTimeout(()=>{
+
+notification(
+"⚠ Todos los archivos se han perdido."
+);
+
+},2000);
+
+}
+
+////////////////////////////////////////////////////
+// NAVEGADOR
+////////////////////////////////////////////////////
+
+function browser(){
+
+let q=prompt("PerfectNet\n\nBuscar:");
+
+if(q===null)return;
+
+if(q.toLowerCase().includes("perfectos")){
+
+fakeBSOD();
+
+return;
+
+}
+
+notification(
+`
+Resultados encontrados:
+
+<br><br>
+
+🥔 Patatas nucleares
+
+<br>
+
+🍞 Tostadoras gamer RGB
+
+<br>
+
+📘 Cómo desinstalar PerfectOS
+`
+);
+
+}
+
+////////////////////////////////////////////////////
+// RESTAURAR
+////////////////////////////////////////////////////
+
+function restoreSystem(){
+
+notification(
+"Restaurando sistema..."
+);
+
+setTimeout(()=>{
+
+notification(
+"✅ Restauración completada."
+);
+
+notification(
+"⚠ El sistema ahora está peor."
+);
+
+},3000);
+
+}
+
+////////////////////////////////////////////////////
+// ACTUALIZAR
+////////////////////////////////////////////////////
+
+function updateSystem(){
+
+let progress=0;
+
+let timer=setInterval(()=>{
+
+progress+=20;
+
+notification(
+"Actualización: "+
+progress+"%"
+);
+
+if(progress>=100){
+
+clearInterval(timer);
+
+notification(
+"❌ Error. Actualización reiniciada."
+);
+
+}
+
+},600);
+
+}
+
+////////////////////////////////////////////////////
+// MENU
+////////////////////////////////////////////////////
+
+function menu(){
+
+const options=[
+
+"Apagar",
+"Reiniciar",
+"Actualizar",
+"Empeorar sistema",
+"Quizás apagar"
+
+];
+
+const selected=
+options[Math.floor(Math.random()*options.length)];
+
+notification(
+"Selección automática:<br><br>"+selected
+);
+
+switch(selected){
+
+case "Actualizar":
+updateSystem();
+break;
+
+case "Empeorar sistema":
+chaos+=15;
+notification(
+"🔥 Error instalado correctamente."
+);
+break;
+
+case "Apagar":
+notification(
+"Ahora puede apagar el monitor manualmente."
+);
+break;
+
+case "Reiniciar":
+notification(
+"Reinicio completado. Nada cambió."
+);
+break;
+
+default:
+notification(
+"Error al producir el error."
+);
+
+}
+
+}
+
+////////////////////////////////////////////////////
+// BSOD WINDOWS ME
+////////////////////////////////////////////////////
+
+function fakeBSOD(){
+
+document.body.innerHTML=`
+
+<div style="
+background:#0000AA;
+color:white;
+width:100vw;
+height:100vh;
+padding:30px;
+font-family:Courier New;
+">
+
+<h1>Windows ME Experience™</h1>
+
+<p>
+Se ha producido un error fatal.
+</p>
+
+<p>
+Motivo:
+La estabilidad fue detectada.
+</p>
+
+<p>
+Código:
+0xPERFECTOS
+</p>
+
+<p>
+Recopilando información: 999%
+</p>
+
+<br>
+
+<button onclick="location.reload()">
+Reiniciar desastre
+</button>
+
+</div>
+
+`;
+
+}
+
+////////////////////////////////////////////////////
+// MENSAJES RIDÍCULOS
+////////////////////////////////////////////////////
+
+const funnyErrors=[
+
+"Error: el error ha fallado.",
+"PerfectOS detectó funcionamiento.",
+"Has ganado un bug gratis.",
+"El antivirus se detectó a sí mismo.",
+"Tu paciencia está al 1%.",
+"La solución provocó más problemas."
+
+];
+
+setInterval(()=>{
+
+notification(
+funnyErrors[
+Math.floor(
+Math.random()*funnyErrors.length
+)
+]
+);
+
+},25000);
+
+////////////////////////////////////////////////////
+// ICONOS REBELDES
+////////////////////////////////////////////////////
+
+setInterval(()=>{
+
+document.querySelectorAll(".icon")
+.forEach(icon=>{
+
+icon.style.position="absolute";
+
+icon.style.left=
+Math.random()*(window.innerWidth-150)+"px";
+
+icon.style.top=
+Math.random()*(window.innerHeight-120)+"px";
+
+});
+
+},12000);
+
+console.log(
+"PerfectOS: si funciona, es un bug."
+);
+
+</script>
+
+</body>
+</html>
